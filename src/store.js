@@ -24,12 +24,13 @@ export default new Vuex.Store({
 			  params: {
 				  q: payload,
 			  },
+		  }).then((response) => {
+		  	console.log(response, 'result youtube');
+		  	commit('GET_YOUTUBE_RESULT', response.data);
+		  }).catch((erro) => {
+		  	console.error(erro);
 		  });
-      }).then((response) => {
-        commit('GET_YOUTUBE_RESULT', response);
-      }).catch((erro) => {
-		  console.error(erro);
-	  }),
+      }),
   },
   SEARCH_TICKET_MASTER: ({ commit }, payload) => new Promise((resolve, reject) => {
     TICKETMASTER.get('?events.json', {
