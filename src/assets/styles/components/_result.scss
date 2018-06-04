@@ -1,0 +1,63 @@
+details summary::-webkit-details-marker {
+	display: none;
+}
+
+details summary {
+	border-bottom: 1px solid #ccc;
+	padding: 1.25rem;
+	background-color: $main-background-color;
+	color: #fff;
+}
+
+summary h2 {
+	display: inline-block;
+}
+
+summary:before {
+	content: '+';
+	padding: 0.2rem;
+}
+
+details[open] summary:before {
+	content: "-";
+	transition: all .2s ease;
+}
+
+.result-item {
+	display: block;
+	margin-bottom: .25rem;
+	transform: scale(1);
+	box-shadow: 0 4px 3px 0 rgba(0, 0, 0, 0), 0 2px 1px 0 rgba(0, 0, 0, 0.19);
+	transition: background-color 1s;
+	transition: transform 1s;
+}
+
+.result-item--infos {
+	margin-top: 1rem;
+	padding: 1.25rem;
+}
+
+.result-total {
+	padding-bottom: 1rem;
+	display: block;
+}
+
+.result-item--infos {
+	display: grid;
+	grid-template-columns: 50% 50%;
+}
+
+.result-item iframe {
+	box-sizing: border-box;
+	padding: 1rem;
+}
+
+.result-item--infos p {
+	display: block;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
+.result-item--infos p span {
+	font-weight: bold;
+}
