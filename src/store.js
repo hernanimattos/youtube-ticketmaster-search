@@ -13,7 +13,7 @@ export default new Vuex.Store({
 	  GET_YOUTUBE_RESULT: (state, payload) => {
     	  state.youtubeResult = payload;
 	  },
-	  GET_TICKE_MASTER_RESULT: (state, payload) => {
+	  GET_TICKET_MASTER_RESULT: (state, payload) => {
 		  state.tickeMasterResult = payload;
 	  },
   },
@@ -31,16 +31,19 @@ export default new Vuex.Store({
 		  	console.error(erro);
 		  });
       }),
+	  SEARCH_TICKET_MASTER: ({
+			  commit,
+		  }, payload) => new Promise((resolve, reject) => {
+      TICKETMASTER.get('events.json', {
+		  params: {
+          keyword: payload,
+		  },
+      }).then((response) => {
+        console.log(response, 'result ticket');
+		  commit('GET_TICKET_MASTER_RESULT', response.data);
+      }).catch((error) => {
+		  console.error(erro);
+      });
+	  }),
   },
-  SEARCH_TICKET_MASTER: ({ commit }, payload) => new Promise((resolve, reject) => {
-    TICKETMASTER.get('?events.json', {
-      params: {
-        keyword: payload,
-      },
-    }).then((response) => {
-      commit('GET_TICKE_MASTER_RESULT', response);
-    }).catch((error) => {
-      console.error(erro);
-    });
-  }),
 });
