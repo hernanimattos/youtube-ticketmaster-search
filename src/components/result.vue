@@ -38,6 +38,9 @@ export default {
     resultYoutubeSearchItems() {
       return this.$store.state.youtubeResult.items;
     },
+    resultTicketMaster() {
+      return this.$store.state.tickeMasterResult;
+    },
   },
   methods: {
 	  showVideoModal(video) {
