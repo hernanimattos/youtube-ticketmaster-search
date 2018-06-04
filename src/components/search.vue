@@ -1,10 +1,9 @@
 <template>
 	<main>
-		<form @submit.prevent="searchTerms" class="form-search" :class="{'top':(resultSearchCount > 0)}">
+		<form @submit.prevent="searchTerms" class="form-search" :class="{'top':(youtubeResult.items && youtubeResult.items.length > 0)}">
 			<input type="text" name="" id="" placeholder="Ex: r2" v-model="search">
 			<input type="submit" value="Buscar">
 		</form>
-		<span class="result-total" v-if="this.resultSearchCount > 0">Total: {{this.resultSearchCount}}</span>
 	</main>
 </template>
 
@@ -17,8 +16,8 @@ export default {
 	  };
   },
   computed: {
-    resultSearchCount() {
-      return '';
+    youtubeResult() {
+      return this.$store.state.youtubeResult;
     },
   },
   methods: {
