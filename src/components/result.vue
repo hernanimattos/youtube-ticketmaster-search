@@ -6,12 +6,10 @@
 				<details>
 					<summary><h2> {{ result.snippet.title }}</h2></summary>
 					<div class="result-item--infos">
-						<iframe width="100%" height="315" :src="`https://www.youtube.com/embed/${result.id.videoId}`" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+						<img :src="result.snippet.thumbnails.medium.url" alt="" @click="showVideoModal(result.id.videoId)">
 						<div>
 							datas
 						</div>
-
-
 					</div>
 
 				</details>
@@ -24,6 +22,7 @@
 
 <script>
 import modal from './modal.vue';
+
 export default {
   name: 'Result',
   components: {
@@ -40,6 +39,7 @@ export default {
       return this.$store.state.youtubeResult.items;
     },
   },
+  methods: {
 	  showVideoModal(video) {
       this.active = true;
       this.idVideo = video;
