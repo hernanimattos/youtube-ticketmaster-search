@@ -17,16 +17,33 @@
 				</details>
 			</li>
 		</ul>
+			<modal :videoId="idVideo" :show-data="active" @close="active = $event">
+		</modal>
 	</section>
 </template>
 
 <script>
+import modal from './modal.vue';
 export default {
   name: 'Result',
+  components: {
+	  modal,
+  },
+  data() {
+	  return {
+		  active: false,
+		  idVideo: '',
+	  };
+  },
   computed: {
     resultYoutubeSearchItems() {
       return this.$store.state.youtubeResult.items;
     },
+  },
+	  showVideoModal(video) {
+      this.active = true;
+      this.idVideo = video;
+	  },
   },
 };
 </script>
