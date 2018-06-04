@@ -24,6 +24,7 @@ export default {
     searchTerms() {
       this.$root.$emit('search', this.search.replace(/\s/g, '+'));
       this.$store.dispatch('SEARCH_YOUTUBE', this.search.replace(/\s/g, '+'));
+	  this.$store.dispatch('SEARCH_TICKET_MASTER', this.search);
       this.search = '';
     },
   },
