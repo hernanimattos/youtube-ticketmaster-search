@@ -87,6 +87,7 @@ export default {
       this.$store.dispatch('EVENT_DETAILS', eventId).then((response) => {
         this.eventDetails = {};
         this.eventDetails = response.data;
+        window.scrollTo(500, 0);
       });
     },
     toogleLading() {
