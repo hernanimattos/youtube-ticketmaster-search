@@ -18,18 +18,30 @@
 				</li>
 			</ul>
 		</article>
-		<article v-if="resultTicketMasterEvents">
+		<article v-if="resultTicketMasterEvents" class="result-events">
 				<span v-if="resultTicketMasterPage && resultTicketMasterPage.totalElements == 0">No results to search term</span>
 			<h2>EVENTS</h2>
-			<details v-if="resultTicketMasterEvents != undefined" v-for="event in resultTicketMasterEvents.events" :key="event.id">
-				<summary>
-					<h2>{{event.name}}</h2>
-				</summary>
+			<div class="result-events-details" v-if=" Object.keys(eventDetails).length > 0">
+					<p>Event Date: {{eventDetails.dates.start.dateTime | formatDate}} </p>
+					<p>Start Sales: {{ eventDetails.sales.public.startDateTime | formatDate }}</p>
+					<p>End Sales: {{ eventDetails.sales.public.endDateTime | formatDate }}</p>
 					<div>
-						<h3>Start Sales: {{ event.sales.public.startDateTime | formatDate }}</h3>
-						<h3>End Sales: {{ event.sales.public.endDateTime | formatDate }}</h3>
+						<address>
+							<p>Local name: {{ eventDetails._embedded.venues[0].name}}</p>
+							<p>More informations about locale  <a :href="eventDetails._embedded.venues[0].url">see on website</a></p>
+							<p>Country: {{eventDetails._embedded.venues[0].country.name}}</p>
+						</address>
+						<img :src="eventDetails.images[3].url" >
 					</div>
-			</details>
+
+				</div>
+				<div class="list-events">
+					<details v-if="resultTicketMasterEvents != undefined" v-for="event in resultTicketMasterEvents.events" :key="event.id" @click="detailsEvent(event.id)">
+						<summary>
+							<h2>{{event.name}}</h2>
+						</summary>
+					</details>
+				</div>
 		</article>
 			<modal :videoId="idVideo" :show-data="active" @close="active = $event">
 		</modal>
@@ -42,13 +54,14 @@ import modal from './modal.vue';
 export default {
   name: 'Result',
   components: {
-	  modal,
+    modal,
   },
   data() {
-	  return {
-		  active: false,
-		  idVideo: '',
-	  };
+    return {
+      active: false,
+      idVideo: '',
+      eventDetails: {},
+    };
   },
   computed: {
     resultYoutubeSearchItems() {
@@ -57,16 +70,28 @@ export default {
     resultTicketMasterEvents() {
       return this.$store.state.tickeMasterResult._embedded;
     },
-	 resultTicketMasterPage() {
+    resultTicketMasterPage() {
       return this.$store.state.tickeMasterResult.page;
+    },
+    resultEventDetails() {
+      return this.$store.state.eventDetails;
     },
   },
   methods: {
-	  showVideoModal(video) {
+    showVideoModal(video) {
       this.active = true;
       this.idVideo = video;
-	  },
+    },
+    detailsEvent(eventId) {
+      this.toogleLading();
+      this.$store.dispatch('EVENT_DETAILS', eventId).then((response) => {
+        this.eventDetails = {};
+        this.eventDetails = response.data;
+      });
+    },
+    toogleLading() {
+      this.loading = !this.loading;
+    },
   },
 };
 </script>
-
