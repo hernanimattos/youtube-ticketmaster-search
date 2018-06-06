@@ -91,6 +91,10 @@ strong {
 .result-events summary {
 	background-color: #265571;
 	cursor: pointer;
+	min-height: 70px;
+}
+.result-events summary h2{
+	display: block
 }
 
 .result-events summary:before {
