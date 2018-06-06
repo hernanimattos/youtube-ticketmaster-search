@@ -1,50 +1,61 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { YOUTUBE, TICKETMASTER } from './Api/http-commom';
+import {
+  YOUTUBE,
+  TICKETMASTER,
+} from './Api/http-commom';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-	  youtubeResult: {},
-	  tickeMasterResult: {},
+    youtubeResult: {},
+    tickeMasterResult: {},
     eventDetails: {},
   },
   mutations: {
-	  GET_YOUTUBE_RESULT: (state, payload) => {
-    	  state.youtubeResult = payload;
-	  },
-	  GET_TICKET_MASTER_RESULT: (state, payload) => {
-		  state.tickeMasterResult = payload;
-	  },
+    GET_YOUTUBE_RESULT: (state, payload) => {
+      state.youtubeResult = payload;
+    },
+    GET_TICKET_MASTER_RESULT: (state, payload) => {
+      state.tickeMasterResult = payload;
+    },
     GET_EVENT_DETAILS: (state, payload) => {
       state.eventDetails = payload;
     },
   },
   actions: {
-    SEARCH_YOUTUBE: ({ commit }, payload) =>
+    SEARCH_YOUTUBE: ({
+      commit,
+    }, payload) =>
       new Promise((resolve, reject) => {
-		  YOUTUBE.get('/search', {
-			  params: {
-				  q: payload,
-			  },
-		  }).then((response) => {
-		  	console.log(response, 'result youtube');
-		  	commit('GET_YOUTUBE_RESULT', response.data);
-		  }).catch((erro) => {
-		  	console.error(erro);
-		  });
+        YOUTUBE.get('/search', {
+          params: {
+            q: payload,
+          },
+        }).then((response) => {
+          commit('GET_YOUTUBE_RESULT', response.data);
+          resolve(response);
+        }).catch((erro) => {
+          console.error(erro);
+          reject(erro);
+        });
       }),
-	  SEARCH_TICKET_MASTER: ({
-			  commit,
-		  }, payload) => new Promise((resolve, reject) => {
+    SEARCH_TICKET_MASTER: ({
+      commit,
+    }, payload) => new Promise((resolve, reject) => {
       TICKETMASTER.get('events.json', {
-		  params: {
+        params: {
           keyword: payload,
-		  },
+        },
       }).then((response) => {
-        console.log(response, 'result ticket');
-		  commit('GET_TICKET_MASTER_RESULT', response.data);
+        commit('GET_TICKET_MASTER_RESULT', response.data);
+		  resolve(response);
+      }).catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+    }),
     EVENT_DETAILS: ({
       commit,
     }, payload) => new Promise((resolve, reject) => {
@@ -52,9 +63,8 @@ export default new Vuex.Store({
 		  commit('GET_EVENT_DETAILS', response.data);
         resolve(response);
       }).catch((error) => {
-		  console.error(erro);
+        reject(error);
       });
-	  }),
     }),
   },
 });
