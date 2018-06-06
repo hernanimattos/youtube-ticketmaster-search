@@ -18,7 +18,7 @@
 				</li>
 			</ul>
 		</article>
-		<article v-if="resultTicketMasterEvents" class="result-events">
+		<article v-if="resultTicketMasterEvents" class="result-events" id="result-events">
 				<span v-if="resultTicketMasterPage && resultTicketMasterPage.totalElements == 0">No results to search term</span>
 			<h2>EVENTS</h2>
 			<div class="result-events-details" v-if=" Object.keys(eventDetails).length > 0">
@@ -87,8 +87,12 @@ export default {
       this.$store.dispatch('EVENT_DETAILS', eventId).then((response) => {
         this.eventDetails = {};
         this.eventDetails = response.data;
-        window.scrollTo(500, 0);
+        this.scrollToCurrentEvent();
       });
+    },
+    scrollToCurrentEvent() {
+      const element = document.querySelector('#result-events');
+      element.scrollIntoView();
     },
     toogleLading() {
       this.loading = !this.loading;
